@@ -7,6 +7,8 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Cysharp.Threading.Tasks;
 using Channel = Grpc.Core.Channel;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 public class gRpcClient : Singleton<gRpcClient>
@@ -36,14 +38,7 @@ public class gRpcClient : Singleton<gRpcClient>
     // Start is called before the first frame update
     void Start()
     {
-        MessageManager.Instance.AddListener(
-            EventNameDefine.LUA_INIT_OK,
-            msg =>
-            {
-                Init().Forget();
-            },
-            autoRemove: true
-        );
+        Init().Forget();
     }
 
     async UniTask Init()
@@ -86,6 +81,7 @@ public class gRpcClient : Singleton<gRpcClient>
         client.HandleJsonMsgAsync(new StringMsg() { JsonStr = jsonStr, Type = type });
     }
 
+    //从路由服务器请求用户头像
     public async Task<Sprite> GetSpriteByUserId(long userid)
     {
         var jsonstr = JsonConvert.SerializeObject(new UserInfoRequest() { userid = userid });
@@ -112,11 +108,7 @@ public class gRpcClient : Singleton<gRpcClient>
             return null;
         }
 
-        if (!string.IsNullOrEmpty(faceUrl))
-        {
-            return await GameUtils.GetSpriteByUrl(faceUrl);
-        }
-        else
+        if (string.IsNullOrEmpty(faceUrl))
         {
             Debug.LogWarning($"GetSpriteByUserId error. userid:{userid} faceUrl is null");
         }
