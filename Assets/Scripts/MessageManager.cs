@@ -9,33 +9,26 @@ using UnityEngine;
 
 
 public class MessageManager : MonoBehaviour
-// , MMEventListener<TopDownEngineEvent>
 {
-
-
-
-
     public static MessageManager Instance { get; private set; }//考虑到线程安全，这里没有使用自动创建
 
-    GameObject UVSEventSystem;
+    ConcurrentQueue<Message> msgQueue = new ConcurrentQueue<Message>();
 
     public static void Create()
     {
         if (Instance != null) return;
         var gameObject = new GameObject("_MessageManger");
-        DontDestroyOnLoad(gameObject);
         gameObject.AddComponent<MessageManager>();
     }
 
     private void Awake()
     {
         Instance = this;
-        // this.MMEventStartListening();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnDestroy()
     {
-        // this.MMEventStopListening();
         dicMsgEvents.Clear();
         Instance = null;
     }
@@ -141,9 +134,6 @@ public class MessageManager : MonoBehaviour
         }
     }
 
-
-
-    ConcurrentQueue<Message> msgQueue = new ConcurrentQueue<Message>();
 
     //线程安全
     public void PostMessage(Message message)

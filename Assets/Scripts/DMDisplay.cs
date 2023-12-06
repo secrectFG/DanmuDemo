@@ -8,12 +8,10 @@ namespace DMGame.UI
     public class DMDisplay : MonoBehaviour
     {
         public DMDisplayItem template;
-        // public int maxItemCount = 10;
 
         public float moveItemAnimeTime = 0.5f;
 
         float itemHeight = 0;
-        // Vector3 templatePos;
         Vector2 offestMin;
         Vector2 offestMax;
 
@@ -40,7 +38,6 @@ namespace DMGame.UI
             template.gameObject.SetActive(false);
             var rt = template.GetComponent<RectTransform>();
             itemHeight = rt.rect.height;
-            // templatePos = template.transform.localPosition;
             offestMin = rt.offsetMin;
             offestMax = rt.offsetMax;
             height = GetComponent<RectTransform>().rect.height;
@@ -59,7 +56,7 @@ namespace DMGame.UI
                 }
                 return;
             }
-            // var item = Instantiate(template);
+
             var itemObj = itemPool.Get();
             var item = itemObj.GetComponent<DMDisplayItem>();
             item.UserNameAdapter.text = userName;
@@ -73,12 +70,7 @@ namespace DMGame.UI
             rt.offsetMin = offestMin;
             rt.offsetMax = offestMax;
             items.Add(item);
-            // if (items.Count > maxItemCount)
-            // {
-            //     var firstItem = items[0];
-            //     items.RemoveAt(0);
-            //     itemPool.Release(firstItem.gameObject);
-            // }
+
             while (items.Count * itemHeight > height + itemHeight*2)
             {
                 var firstItem = items[0];
@@ -121,14 +113,14 @@ namespace DMGame.UI
 
         }
 
-        int counter = 0;
-        private void OnGUI()
-        {
-            if (GUILayout.Button("AddItem"))
-            {
-                counter++;
-                AddItem("UserName" + counter, "Message");
-            }
-        }
+        // int counter = 0;
+        // private void OnGUI()
+        // {
+        //     if (GUILayout.Button("AddItem"))
+        //     {
+        //         counter++;
+        //         AddItem("UserName" + counter, "Message");
+        //     }
+        // }
     }
 }

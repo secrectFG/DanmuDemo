@@ -13,9 +13,9 @@ using Newtonsoft.Json.Linq;
 
 public class gRpcClient : Singleton<gRpcClient>
 {
-    public string ip = "127.0.0.1";//目前在Lua里面设置
-    public int port = 17989;//目前在Lua里面设置
-    public bool showMSGLog = false;//目前在Lua里面设置
+    public string ip = "127.0.0.1";
+    public int port = 17989;
+    public bool showMSGLog = false;
     Channel channel = null;
     CancellationTokenSource tokenSource = new CancellationTokenSource();
     LiveMessager.LiveMessagerClient client;
