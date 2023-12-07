@@ -116,7 +116,7 @@ public class gRpcClient : Singleton<gRpcClient>
         return null;
     }
 
-    async Task<bool> GetStream(IAsyncStreamReader<StringMsg> reader)
+    async UniTask<bool> GetStream(IAsyncStreamReader<StringMsg> reader)
     {
         try
         {
