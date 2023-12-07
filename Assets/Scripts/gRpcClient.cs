@@ -82,7 +82,7 @@ public class gRpcClient : Singleton<gRpcClient>
     }
 
     //从路由服务器请求用户头像
-    public async Task<Sprite> GetSpriteByUserId(long userid)
+    public async UniTask<Sprite> GetSpriteByUserId(long userid)
     {
         var jsonstr = JsonConvert.SerializeObject(new UserInfoRequest() { userid = userid });
         print(jsonstr);
